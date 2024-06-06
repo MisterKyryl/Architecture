@@ -3994,12 +3994,13 @@
                 observeParents: true,
                 slidesPerView: 1,
                 spaceBetween: 0,
-                autoHeight: true,
                 speed: 800,
                 parallax: true,
-                touchRatio: 1,
-                simulateTouch: true,
                 effect: "fade",
+                autoplay: {
+                    delay: 5e3,
+                    disableOnInteraction: false
+                },
                 pagination: {
                     el: ".swiper-pagination",
                     type: "fraction",
@@ -4012,12 +4013,15 @@
                 },
                 on: {
                     init: function() {
-                        const links = document.querySelectorAll(".card__slider a");
-                        links.forEach((link => {
-                            link.addEventListener("click", (function(e) {
-                                e.stopPropagation();
-                            }));
+                        this.slides[this.activeIndex].style.zIndex = "2";
+                    },
+                    slideChangeTransitionStart: function() {
+                        this.slides.forEach((function(slide) {
+                            slide.style.zIndex = "";
                         }));
+                    },
+                    slideChangeTransitionEnd: function() {
+                        this.slides[this.activeIndex].style.zIndex = "2";
                     }
                 }
             });
